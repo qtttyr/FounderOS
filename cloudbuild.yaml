@@ -27,7 +27,6 @@ steps:
       - '--cpu=1'
       - '--timeout=60'
       - '--max-instances=1'
-      - '--set-env-vars=GEMINI_API_KEY=${_GEMINI_API_KEY}'
 
 substitutions:
-  _GEMINI_API_KEY: AIzaSyCkVk0rWWzTLkhT1xzZO78m9sPcc9p80aY
+  _GEMINI_API_KEY: ''
