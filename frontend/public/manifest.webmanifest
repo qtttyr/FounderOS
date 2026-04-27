@@ -1,0 +1,19 @@
+{
+  "name": "Founder OS",
+  "short_name": "Founder OS",
+  "description": "PWA control center for smart glasses, projects, AI and quick capture.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0b1117",
+  "theme_color": "#0b1117",
+  "lang": "ru",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}
