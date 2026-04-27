@@ -1,0 +1,51 @@
+name: Deploy Backend to Cloud Run
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - backend/**
+
+env:
+  REGION: us-central1
+  SERVICE_NAME: mira-ai-hub
+  IMAGE: us-central1-docker.pkg.dev/project-29104ba0-09d7-450d-b36/mira-ai-hub
+  PROJECT_ID: project-29104ba0-09d7-450d-b36
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Authenticate to Google Cloud
+        uses: google-github/actions/auth@v2
+        with:
+          workload_identity_provider: projects/852162981545/locations/global/workloadIdentityPools/github-prod/providers/github-provider
+          service_account: cloud-build@${{ env.PROJECT_ID }}.iam.gserviceaccount.com
+
+      - name: Configure Docker auth
+        run: gcloud auth configure-docker ${{ env.REGION }}-docker.pkg.dev --quiet
+
+      - name: Build and push image
+        uses: docker/build-push-action@v6
+        with:
+          context: ./backend
+          push: true
+          tags: ${{ env.IMAGE }}:${{ github.sha }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
+
+      - name: Deploy to Cloud Run
+        run: |
+          gcloud run deploy ${{ env.SERVICE_NAME }} \
+            --image ${{ env.IMAGE }}:${{ github.sha }} \
+            --region ${{ env.REGION }} \
+            --allow-unauthenticated \
+            --set-env-vars GEMINI_API_KEY=${{ secrets.GEMINI_API_KEY }} \
+            --platform managed
