@@ -69,10 +69,16 @@
   html {
     font-family: 'JetBrains Mono', ui-monospace, monospace;
     @apply font-mono;
+    touch-action: pan-x pan-y;
+    overscroll-behavior: none;
+    -webkit-text-size-adjust: none;
+    text-size-adjust: none;
   }
 
   #root {
     min-height: 100vh;
+    touch-action: pan-x pan-y;
+    overscroll-behavior: none;
   }
 }
 

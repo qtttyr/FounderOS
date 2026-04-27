@@ -1,0 +1,21 @@
+# Ignore everything
+*
+
+# But not these
+!backend
+!backend/**
+!cloudbuild.yaml
+
+# Exclude from backend
+backend/node_modules
+backend/venv
+backend/__pycache__
+backend/.git
+backend/*.pyc
+frontend
+.github
+.git
+.gitignore
+README.md
+DEPLOY.md
+*.md
