@@ -1,17 +1,18 @@
 steps:
   - name: 'gcr.io/cloud-builders/docker'
-    args: ['build', '-t', 'gcr.io/$PROJECT_ID/mira-ai-hub:$COMMIT_SHA', '.']
+    args: ['build', '-t', 'gcr.io/mira-494609/mira-ai-hub:$COMMIT_SHA', '.']
     dir: 'backend'
 
   - name: 'gcr.io/cloud-builders/docker'
-    args: ['push', 'gcr.io/$PROJECT_ID/mira-ai-hub:$COMMIT_SHA']
+    args: ['push', 'gcr.io/mira-494609/mira-ai-hub:$COMMIT_SHA']
+    dir: 'backend'
 
   - name: 'gcr.io/cloud-builders/gcloud'
     args:
       - 'run'
       - 'deploy'
       - 'mira-ai-hub'
-      - '--image=gcr.io/$PROJECT_ID/mira-ai-hub:$COMMIT_SHA'
+      - '--image=gcr.io/mira-494609/mira-ai-hub:$COMMIT_SHA'
       - '--region=us-central1'
       - '--platform=managed'
       - '--allow-unauthenticated'

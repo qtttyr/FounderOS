@@ -1,34 +1,54 @@
 # Cloud Run Deployment
 
+## Project ID
+`mira-494609`
+
 ## Setup
 
 ```bash
+# Authenticate
+gcloud auth login
+gcloud auth configure-docker
+
 # Set project
-gcloud config set project YOUR_PROJECT_ID
+gcloud config set project mira-494609
+```
 
-# Build and deploy
+## Build & Deploy (One-time)
+
+```bash
 cd backend
-gcloud builds submit --config=../cloudbuild.yaml --substitutions=_GEMINI_API_KEY=your_api_key
+gcloud builds submit --config=../cloudbuild.yaml \
+  --substitutions=_GEMINI_API_KEY=your_gemini_key
+```
 
-# Or with Docker directly:
-docker build -t gcr.io/YOUR_PROJECT_ID/mira-ai-hub .
-docker push gcr.io/YOUR_PROJECT_ID/mira-ai-hub
+## Or Manual Deploy
+
+```bash
+cd backend
+
+# Build
+docker build -t gcr.io/mira-494609/mira-ai-hub:latest .
+
+# Push
+docker push gcr.io/mira-494609/mira-ai-hub:latest
+
+# Deploy
 gcloud run deploy mira-ai-hub \
-  --image gcr.io/YOUR_PROJECT_ID/mira-ai-hub \
+  --image gcr.io/mira-494609/mira-ai-hub:latest \
   --region us-central1 \
   --allow-unauthenticated \
-  --set-env-vars GEMINI_API_KEY=your_api_key
+  --set-env-vars GEMINI_API_KEY=your_gemini_key
+```
+
+## Get URL
+
+```bash
+gcloud run services describe mira-ai-hub --region us-central1 --format='value(status.url)'
 ```
 
 ## Environment Variables
 
-| Variable | Required | Description |
-|----------|----------|-------------|
-| `GEMINI_API_KEY` | Yes | Google Gemini API key |
-
-## URLs
-
-After deploy, get the URL:
-```bash
-gcloud run services describe mira-ai-hub --region us-central1 --format='value(status.url)'
-```
+| Variable | Required |
+|----------|----------|
+| `GEMINI_API_KEY` | Yes |
