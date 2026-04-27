@@ -1,0 +1,13 @@
+__pycache__
+*.pyc
+*.pyo
+env
+venv
+.git
+.env
+.env.*
+*.egg-info
+dist
+build
+README.md
+run.bat
