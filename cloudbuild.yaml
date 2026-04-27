@@ -1,11 +1,17 @@
 steps:
   - name: 'gcr.io/cloud-builders/docker'
     id: 'Build'
-    args: ['build', '-t', 'us-central1-docker.pkg.dev/project-29104ba0-09d7-450d-b36/mira-ai-hub:latest', '.']
+    args:
+      - 'build'
+      - '-t'
+      - 'us-central1-docker.pkg.dev/project-29104ba0-09d7-450d-b36/mira-ai-hub:latest'
+      - '.'
 
   - name: 'gcr.io/cloud-builders/docker'
     id: 'Push'
-    args: ['push', 'us-central1-docker.pkg.dev/project-29104ba0-09d7-450d-b36/mira-ai-hub:latest']
+    args:
+      - 'push'
+      - 'us-central1-docker.pkg.dev/project-29104ba0-09d7-450d-b36/mira-ai-hub:latest'
 
   - name: 'gcr.io/cloud-builders/gcloud'
     id: 'Deploy'
@@ -21,7 +27,7 @@ steps:
       - '--cpu=1'
       - '--timeout=60'
       - '--max-instances=1'
-      - '--set-env-vars=GEMINI_API_KEY=${_GEMINI_API_KEY}']
+      - '--set-env-vars=GEMINI_API_KEY=${_GEMINI_API_KEY}'
 
 substitutions:
   _GEMINI_API_KEY: AIzaSyCkVk0rWWzTLkhT1xzZO78m9sPcc9p80aY
